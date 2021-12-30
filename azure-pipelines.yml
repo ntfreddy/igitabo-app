@@ -34,5 +34,12 @@ steps:
   inputs:
     versionSpec: '14.15.x'
   displayName: 'Install Node.js'
+- task: CordovaBuild@1
+  inputs:
+    platform: 'android'
+    configuration: '$(Configuration)'
+    archs: 'arm'
+    cordovaVersion: '11.0.0'
+    outputPattern: 'bin'
 
 
