@@ -26,7 +26,7 @@ steps:
   inputs:
     script: 'npm i -g cordova-update-config'
 - task: CmdLine@2
-  displayName: 'Install cordova-update-config'
+  displayName: 'Update version'
   inputs:
     script: 'cordova-update-config --appversion %VERSION%'
 - task: CordovaBuild@1
