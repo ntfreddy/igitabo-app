@@ -10,10 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: Npm@1
-  inputs:
-    command: 'install'
-    workingDir: '-g cordova-update-config'
 - task: PowerShell@2
   displayName: 'Generate new Version'
   inputs:
@@ -21,23 +17,18 @@ steps:
     script: |
       $time =$(Get-Date -Format yyyy.MM.ddhhmmss);
       Write-Host "##vso[task.setvariable variable=Version]$time";
-- task: replacetokens@4
-  displayName: 'Replace tokens in **/config.xml'
-  inputs:
-    targetFiles: '**/config.xml'
-    encoding: 'auto'
-    tokenPattern: 'default'
-    writeBOM: true
-    actionOnMissing: 'warn'
-    keepToken: false
-    actionOnNoFiles: 'continue'
-    enableTransforms: false
-    useLegacyPattern: false
-    enableTelemetry: true
 - task: NodeTool@0
   inputs:
     versionSpec: '14.15.x'
   displayName: 'Install Node.js'
+- task: CmdLine@2
+  displayName: 'Install cordova-update-config'
+  inputs:
+    script: 'npm i -g cordova-update-config'
+- task: CmdLine@2
+  displayName: 'Install cordova-update-config'
+  inputs:
+    script: 'cordova-update-config --appversion %VERSION%'
 - task: CordovaBuild@1
   inputs:
     platform: 'android'
