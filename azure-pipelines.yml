@@ -44,7 +44,7 @@ steps:
   inputs:
     script: |
         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        sudo update-java-alternatives --config java -s $(sudo update-java-alternatives --config java -l | grep 8 | cut -d " " -f1) || echo '.'
+        sudo update-java-alternatives -s $(sudo update-java-alternatives -l | grep 8 | cut -d " " -f1) || echo '.'
         sudo update-alternatives --config javac
 - task: CmdLine@2
   displayName: 'Generating Android Apps'
