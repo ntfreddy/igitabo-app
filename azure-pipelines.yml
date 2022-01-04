@@ -22,6 +22,10 @@ steps:
     versionSpec: '14.15.x'
   displayName: 'Install Node.js'
 - task: CmdLine@2
+  displayName: 'npm install and build'
+  inputs:
+    script: 'npm install'
+- task: CmdLine@2
   displayName: 'Install cordova-update-config'
   inputs:
     script: 'npm i -g cordova-update-config'
@@ -29,12 +33,17 @@ steps:
   displayName: 'Update version'
   inputs:
     script: 'cordova-update-config --appversion %VERSION%'
-- task: CordovaBuild@1
+- task: CmdLine@2
+  displayName: 'Installation of cordova and Android platform'
   inputs:
-    platform: 'android'
-    configuration: '$(Configuration)'
-    archs: 'arm'
-    cordovaVersion: '10.0.0'
-    outputPattern: 'bin'
+    script: |
+        npm install -g cordova@11.0.0
+        cordova platform add android@9.1.0
+- task: CmdLine@2
+  displayName: 'Generating Android Apps'
+  inputs:
+    script: |
+        cordova build android --release
+        cordova build android --debug
 
 
