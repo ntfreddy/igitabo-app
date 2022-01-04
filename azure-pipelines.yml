@@ -34,7 +34,7 @@ steps:
     platform: 'android'
     configuration: '$(Configuration)'
     archs: 'arm'
-    cordovaVersion: '9.1.0'
+    cordovaVersion: '10.0.0'
     outputPattern: 'bin'
 
 
