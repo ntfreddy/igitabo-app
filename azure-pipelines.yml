@@ -10,13 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: CmdLine@2
-  displayName: 'Configuring Java SDK'
-  inputs:
-    script: |
-        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        sudo update-alternatives --set javac  /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/javac
-        sudo update-alternatives --config java
 - task: PowerShell@2
   displayName: 'Generate new Version'
   inputs:
@@ -51,8 +44,8 @@ steps:
   inputs:
     script: |
         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        sudo update-java-alternatives --set java  /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java
-        sudo update-alternatives --set javac  /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/javac 
+        sudo update-alternatives --set java /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java
+        sudo update-alternatives --set javac  /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/javac
 - task: CmdLine@2
   displayName: 'Generating Android Apps'
   inputs:
