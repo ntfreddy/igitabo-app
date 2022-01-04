@@ -40,6 +40,13 @@ steps:
         npm install -g cordova@11.0.0
         cordova platform add android@9.1.0
 - task: CmdLine@2
+  displayName: 'Configuring Java SDK'
+  inputs:
+    script: |
+        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        sudo update-alternatives --config java
+        sudo update-alternatives --config javac
+- task: CmdLine@2
   displayName: 'Generating Android Apps'
   inputs:
     script: |
