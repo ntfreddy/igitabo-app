@@ -3,10 +3,20 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-trigger:
-- master
 
 name: $(Build.DefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src
+    exclude:
+    - azure-pipelines.yml
+    - README.md
+    - Set-CordovaVersion.ps1
 
 pool:
   vmImage: ubuntu-latest
