@@ -14,7 +14,7 @@ trigger:
     include:
     - src
     exclude:
-    - azure-pipelines.yml
+    - azure-pipelines-ci.yml
     - README.md
     - Set-CordovaVersion.ps1
 
