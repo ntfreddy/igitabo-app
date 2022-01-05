@@ -22,7 +22,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  versionNumber: $(Date:yyyy.MM.ddhhmmss)
+  versionNumber: $(Get-Date -Format yyyy.MM.ddhhmmss)
   buildNumber: $(Build.BuildNumber)
   configFile: '$(System.DefaultWorkingDirectory)/config.xml'
   cordovaVersionScript: '$(System.DefaultWorkingDirectory)/Set-CordovaVersion.ps1'
