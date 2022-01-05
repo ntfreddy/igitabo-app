@@ -29,14 +29,6 @@ variables:
 
 steps:
 - task: PowerShell@2
-  displayName: 'Generate new Version'
-  inputs:
-    targetType: 'inline'
-    script: |
-      $time =$(Get-Date -Format yyyy.MM.ddhhmmss);
-      Write-Host "##vso[task.setvariable variable=Version]$time";
-      ls
-- task: PowerShell@2
   displayName: 'Set Version and Version Code'
   inputs:
     filePath: $(cordovaVersionScript)

@@ -13,7 +13,7 @@ Param (
         $StringArray = $_.Split(".")
 
         $ErrorFound = $False
-        If($StringArray.Length -Lt 3) {
+        If($StringArray.Length -Ne 3) {
             $ErrorFound = $True
         }
         Else {
@@ -56,6 +56,10 @@ Process {
 
         $XmlTree.widget.SetAttribute("android-versionCode", [String]$BuildNumber)
         $XmlTree.widget.SetAttribute("ios-CFBundleVersion", [String]$BuildNumber)
+
+        Write-Host "version = $($XmlTree.widget.version)";
+        Write-Host "android-versionCode = $($XmlTree.widget."android-versionCode")";
+        Write-Host "ios-CFBundleVersion = $($XmlTree.widget."ios-CFBundleVersion")";
 
         $XmlTree.Save($ConfigFile)
     }
