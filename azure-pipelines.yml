@@ -6,8 +6,15 @@
 trigger:
 - master
 
+name: $(Build.DefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)
+
 pool:
   vmImage: ubuntu-latest
+
+variables:
+  versionNumber: $(Date:yyyy.MM.ddhhmmss)
+  buildNumber: $(Build.BuildNumber)
+  configFile: '$(System.DefaultWorkingDirectory)\config.xml'
 
 steps:
 - task: PowerShell@2
@@ -17,6 +24,14 @@ steps:
     script: |
       $time =$(Get-Date -Format yyyy.MM.ddhhmmss);
       Write-Host "##vso[task.setvariable variable=Version]$time";
+- task: PowerShell@2
+  displayName: 'Set Version and Version Code'
+  inputs:
+    filePath: '$(System.DefaultWorkingDirectory)\Set-CordovaVersion.ps1'
+    arguments: >
+       -VersionNumber $(versionNumber)
+       -BuildNumber $(buildNumber)
+       -ConfigFile $(configFile)
 - task: NodeTool@0
   inputs:
     versionSpec: '14.15.x'
@@ -25,14 +40,6 @@ steps:
   displayName: 'npm install and build'
   inputs:
     script: 'npm install'
-- task: CmdLine@2
-  displayName: 'Install cordova-update-config'
-  inputs:
-    script: 'npm i -g cordova-update-config'
-- task: CmdLine@2
-  displayName: 'Update version'
-  inputs:
-    script: 'cordova-update-config --appversion %VERSION%'
 - task: CmdLine@2
   displayName: 'Installation of cordova and Android platform'
   inputs:
