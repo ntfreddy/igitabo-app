@@ -24,7 +24,8 @@ pool:
 variables:
   versionNumber: $(Date:yyyy.MM.ddhhmmss)
   buildNumber: $(Build.BuildNumber)
-  configFile: '$(System.DefaultWorkingDirectory)\config.xml'
+  configFile: '$(System.DefaultWorkingDirectory)/config.xml'
+  cordovaVersionScript: '$(System.DefaultWorkingDirectory)/Set-CordovaVersion.ps1'
 
 steps:
 - task: PowerShell@2
@@ -38,7 +39,7 @@ steps:
 - task: PowerShell@2
   displayName: 'Set Version and Version Code'
   inputs:
-    filePath: '$(System.DefaultWorkingDirectory)\Set-CordovaVersion.ps1'
+    filePath: $(cordovaVersionScript)
     arguments: >
        -VersionNumber $(versionNumber)
        -BuildNumber $(buildNumber)
