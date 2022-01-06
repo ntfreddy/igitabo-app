@@ -71,7 +71,7 @@ steps:
   inputs:
     platform: 'Build android'
     configuration: '$(configuration)'
-    cordovaVersion: '8.0.0'
+    cordovaVersion: '11.0.0'
     archs: 'arm'
     keystoreFile: '$(keystoreFile)'
     keystorePass: '(keystorePassword)'
