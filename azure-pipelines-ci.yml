@@ -76,10 +76,10 @@ steps:
   displayName: 'Signing apk'
   inputs:
     apkFiles: '**/*.apk'
-    apksignerKeystoreFile: 'release.keystore'
-    apksignerKeystorePassword: '$(keystorePassword)'
-    apksignerKeystoreAlias: 'release.keystore'
-    apksignerKeyPassword: '$(keystorePassword)'
+    apksignerKeystoreFile: $(keystoreFile)
+    apksignerKeystorePassword: $(keystorePassword)
+    apksignerKeystoreAlias: $(keystoreFile)
+    apksignerKeyPassword: $(keystorePassword)
 - task: CopyFiles@2
   displayName: 'Copying Android App as Artifact'
   inputs:
