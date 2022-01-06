@@ -16,7 +16,7 @@ trigger:
     exclude:
     - azure-pipelines-ci.yml
     - README.md
-    - Set-CordovaVersion.ps1
+    - scripts
 
 pool:
   vmImage: ubuntu-latest
@@ -25,7 +25,7 @@ variables:
   versionNumber: $(Get-Date -Format yyyy.MM.ddhhmmss)
   buildNumber: $(Build.BuildId)
   configFile: '$(System.DefaultWorkingDirectory)/config.xml'
-  cordovaVersionScript: '$(System.DefaultWorkingDirectory)/Set-CordovaVersion.ps1'
+  cordovaVersionScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
 
 steps:
 - task: PowerShell@2
