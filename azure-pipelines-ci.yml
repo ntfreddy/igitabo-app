@@ -26,6 +26,8 @@ variables:
   buildNumber: $(Build.BuildId)
   configFile: '$(System.DefaultWorkingDirectory)/config.xml'
   cordovaVersionScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
+  convertBase64StringToFileScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
+  keystoreFile: '.\release.keystore'
 
 steps:
 - task: PowerShell@2
@@ -63,5 +65,34 @@ steps:
     script: |
         cordova build android --release
         cordova build android --debug
-
-
+- task: PowerShell@2
+  displayName: 'Retrieve keystore from Base64 string'
+  inputs:
+    filePath: $(convertBase64StringToFileScript)
+    arguments: >
+       -Base64String ${env:KEYSTOREBASE64}
+       -File $(keystoreFile)
+- task: AndroidSigning@3
+  displayName: 'Signing apk'
+  inputs:
+    apkFiles: '**/*.apk'
+    apksignerKeystoreFile: 'release.keystore'
+    apksignerKeystorePassword: '$(keystorePassword)'
+    apksignerKeystoreAlias: 'release.keystore'
+    apksignerKeyPassword: '$(keystorePassword)'
+- task: CopyFiles@2
+  displayName: 'Copying Android App as Artifact'
+  inputs:
+    SourceFolder: '$(Agent.BuildDirectory)'
+    Contents: '**/*.apk'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    CleanTargetFolder: true
+    overWrite: false
+    flattenFolders: false
+    preserveTimestamp: true
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish build artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
