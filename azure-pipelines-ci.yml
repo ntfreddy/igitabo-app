@@ -28,6 +28,7 @@ variables:
   cordovaVersionScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
   convertBase64StringToFileScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
   keystoreFile: 'release.keystore'
+  configuration: 'Release' #Debug
 
 steps:
 - task: PowerShell@2
@@ -59,12 +60,6 @@ steps:
         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         sudo update-alternatives --set java /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java
         sudo update-alternatives --set javac  /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/javac
-- task: CmdLine@2
-  displayName: 'Generating Android Apps'
-  inputs:
-    script: |
-        cordova build android --release
-        cordova build android --debug
 - task: PowerShell@2
   displayName: 'Retrieve keystore from Base64 string'
   inputs:
@@ -72,14 +67,31 @@ steps:
     arguments: >
        -Base64String ${env:KEYSTOREBASE64}
        -File $(keystoreFile)
-- task: AndroidSigning@3
-  displayName: 'Signing apk'
+- task: CordovaBuild@1
   inputs:
-    apkFiles: '**/*.apk'
-    apksignerKeystoreFile: $(keystoreFile)
-    apksignerKeystorePassword: $(keystorePassword)
-    apksignerKeystoreAlias: $(keystoreFile)
-    apksignerKeyPassword: $(keystorePassword)
+    platform: 'Build android'
+    configuration: '$(configuration)'
+    archs: 'arm'
+    keystoreFile: '$(keystoreFile)'
+    keystorePass: '(keystorePassword)'
+    keystoreAlias: '$(keystoreFile)'
+    keyPass: '(keystorePassword)'
+    outputPattern: 'bin'
+#- task: CmdLine@2
+#  displayName: 'Generating Android Apps'
+#  inputs:
+#    script: |
+#        cordova build android --release
+#        cordova build android --debug
+
+#- task: AndroidSigning@3
+#  displayName: 'Signing apk'
+#  inputs:
+#    apkFiles: '**/*.apk'
+#    apksignerKeystoreFile: $(keystoreFile)
+#    apksignerKeystorePassword: $(keystorePassword)
+#    apksignerKeystoreAlias: $(keystoreFile)
+#    apksignerKeyPassword: $(keystorePassword)
 - task: CopyFiles@2
   displayName: 'Copying Android App as Artifact'
   inputs:
