@@ -60,30 +60,11 @@ steps:
         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         sudo update-alternatives --set java /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java
         sudo update-alternatives --set javac  /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/javac
-#- task: PowerShell@2
-#  displayName: 'Retrieve keystore from Base64 string'
-#  inputs:
-#    filePath: $(convertBase64StringToFileScript)
-#    arguments: >
-#       -Base64String ${env:KEYSTOREBASE64}
-#       -File $(keystoreFile)
-#- task: CordovaBuild@1
-#  inputs:
-#    platform: 'Build android'
-#    configuration: '$(configuration)'
-#    cordovaVersion: '11.0.0'
-#    archs: 'arm'
-#    keystoreFile: '$(keystoreFile)'
-#    keystorePass: '(keystorePassword)'
-#    keystoreAlias: '$(keystoreFile)'
-#    keyPass: '(keystorePassword)'
-#    outputPattern: 'bin'
 - task: CmdLine@2
   displayName: 'Generating Android Apps'
   inputs:
     script: |
         cordova build android --release
-        cordova build android --debug
 
 - task: AndroidSigning@3
   displayName: 'Signing apk'
