@@ -26,7 +26,7 @@ variables:
   buildNumber: $(Build.BuildId)
   configFile: '$(System.DefaultWorkingDirectory)/config.xml'
   cordovaVersionScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
-  convertBase64StringToFileScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
+  convertBase64StringToFileScript: '$(System.DefaultWorkingDirectory)/scripts/Convert-Base64StringToFile.ps1'
   keystoreFile: 'release.keystore'
   configuration: 'Release' #Debug
 
