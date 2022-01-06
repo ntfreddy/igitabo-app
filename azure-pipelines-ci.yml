@@ -67,32 +67,31 @@ steps:
     arguments: >
        -Base64String ${env:KEYSTOREBASE64}
        -File $(keystoreFile)
-- task: CordovaBuild@1
+#- task: CordovaBuild@1
+#  inputs:
+#    platform: 'Build android'
+#    configuration: '$(configuration)'
+#    cordovaVersion: '11.0.0'
+#    archs: 'arm'
+#    keystoreFile: '$(keystoreFile)'
+#    keystorePass: '(keystorePassword)'
+#    keystoreAlias: '$(keystoreFile)'
+#    keyPass: '(keystorePassword)'
+#    outputPattern: 'bin'
+- task: CmdLine@2
+  displayName: 'Generating Android Apps'
   inputs:
-    platform: 'Build android'
-    configuration: '$(configuration)'
-    cordovaVersion: '11.0.0'
-    archs: 'arm'
-    keystoreFile: '$(keystoreFile)'
-    keystorePass: '(keystorePassword)'
-    keystoreAlias: '$(keystoreFile)'
-    keyPass: '(keystorePassword)'
-    outputPattern: 'bin'
-#- task: CmdLine@2
-#  displayName: 'Generating Android Apps'
-#  inputs:
-#    script: |
-#        cordova build android --release
-#        cordova build android --debug
-
-#- task: AndroidSigning@3
-#  displayName: 'Signing apk'
-#  inputs:
-#    apkFiles: '**/*.apk'
-#    apksignerKeystoreFile: $(keystoreFile)
-#    apksignerKeystorePassword: $(keystorePassword)
-#    apksignerKeystoreAlias: $(keystoreFile)
-#    apksignerKeyPassword: $(keystorePassword)
+    script: |
+        cordova build android --release
+        cordova build android --debug
+- task: AndroidSigning@3
+  displayName: 'Signing apk'
+  inputs:
+    apkFiles: '**/*.apk'
+    apksignerKeystoreFile: $(keystoreFile)
+    apksignerKeystorePassword: $(keystorePassword)
+    apksignerKeystoreAlias: $(keystoreFile)
+    apksignerKeyPassword: $(keystorePassword)
 - task: CopyFiles@2
   displayName: 'Copying Android App as Artifact'
   inputs:
