@@ -27,7 +27,7 @@ variables:
   configFile: '$(System.DefaultWorkingDirectory)/config.xml'
   cordovaVersionScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
   convertBase64StringToFileScript: '$(System.DefaultWorkingDirectory)/scripts/Set-CordovaVersion.ps1'
-  keystoreFile: '.\release.keystore'
+  keystoreFile: 'release.keystore'
 
 steps:
 - task: PowerShell@2
