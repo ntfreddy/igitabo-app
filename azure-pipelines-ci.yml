@@ -52,7 +52,7 @@ steps:
   inputs:
     script: |
         npm install -g cordova@11.0.0
-        cordova platform add android@9.1.0
+        cordova platform add android@10.0.0
 - task: CmdLine@2
   displayName: 'Configuring Java SDK'
   inputs:
